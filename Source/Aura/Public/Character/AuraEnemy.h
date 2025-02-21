@@ -20,6 +20,6 @@ public:
 	//AEnemy 类实现了 IEnemyInterface 接口，并提供了 HighlightActor 和 UnHighlightActor 的具体实现。
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
-
-	
+protected:
+	virtual void BeginPlay() override;
 };

@@ -2,8 +2,9 @@
 
 
 #include "Character/AuraCharacter.h"
-
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -22,4 +23,31 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationRoll =false;
 	//控制角色是否跟随控制器的偏航（Yaw）旋转。当 bUseControllerRotationYaw 为 false 时，角色的偏航旋转不会跟随控制器的旋转。在第三人称游戏中，角色的偏航旋转通常由 bOrientRotationToMovement 控制，而不是直接跟随控制器。
 	bUseControllerRotationYaw =false;
+}
+
+void AAuraCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	// Init ability actor info for the Server
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	// Init ability actor info for the Client
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::InitAbilityActorInfo()
+{
+	//这个函数从 PlayerState 中获取 AbilitySystemComponent 和 AttributeSet，并将它们赋值给角色的 AbilitySystemComponent 和 AttributeSet。
+	//然后调用 InitAbilityActorInfo 来初始化 AbilitySystemComponent，传递 PlayerState 和 this（角色）作为参数。这一步确保了 AbilitySystemComponent 知道哪个 Actor 拥有它，并且可以正确地应用技能和效果。
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
+	//将AbilitySystemComponent赋值给当前角色的AbilitySystemComponent。
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	//将AttributeSet赋值给当前角色的AttributeSet。
+	AttributeSet = AuraPlayerState->GetAttributeSet();
 }

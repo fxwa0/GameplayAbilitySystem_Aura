@@ -32,6 +32,7 @@ void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		//将 const UAuraAttributeSet* 转换为非 const 指针。因为 SetHealth 函数需要修改属性值，而 const 指针不能调用非 const 成员函数。
 		UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
 		MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth()+25.f);
+		MutableAuraAttributeSet->SetMana(AuraAttributeSet->GetMana()-25.f);
 		//销毁当前 AAuraEffectActor 实例。销毁 AAuraEffectActor，表示该效果已触发。
 		Destroy();
 	}

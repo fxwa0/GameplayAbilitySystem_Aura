@@ -45,7 +45,7 @@ private:
 	void CursorTrace();
 
 	//存储上一帧光标下的物体。
-	IEnemyInterface* LastActor;
+	TObjectPtr<IEnemyInterface> LastActor;
 	//存储当前帧光标下的物体。通过记录上一帧和当前帧的光标下的物体，可以判断是否需要取消高亮上一帧的物体，或者高亮当前帧的物体。
-	IEnemyInterface* ThisActor;
+	TObjectPtr<IEnemyInterface> ThisActor;
 };

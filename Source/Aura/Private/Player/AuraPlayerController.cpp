@@ -104,8 +104,10 @@ void AAuraPlayerController::BeginPlay()
 	//将一个输入映射上下文（Input Mapping Context）添加到增强输入子系统（Enhanced Input Subsystem）中，并指定其优先级。
 	//在游戏运行时，可以根据需要动态添加或移除输入映射上下文。例如，在角色进入战斗状态时，添加战斗相关的输入映射；在角色退出战斗状态时，移除战斗相关的输入映射。
 	//优先级是一个整数值，用于决定多个输入映射上下文的生效顺序。数值越小，优先级越高。如果多个输入映射上下文对同一个输入设备有冲突的映射，优先级高的上下文会覆盖优先级低的上下文。
-	Subsystem->AddMappingContext(AuraContext,0);
-
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext,0);
+	}
 	//显示鼠标光标。APlayerController 类的一个布尔属性。通常在需要鼠标交互的界面（如菜单、UI）中启用。
 	bShowMouseCursor = true;
 	//设置默认的鼠标光标样式（通常是箭头）。APlayerController 类的一个属性，类型为 EMouseCursor 枚举。
